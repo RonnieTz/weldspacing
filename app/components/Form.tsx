@@ -2,10 +2,10 @@
 import { useState } from 'react';
 
 const Form = () => {
-  const [beamLength, setBeamLength] = useState(0);
-  const [weldLength, setWeldLength] = useState(100);
-  const [gapMinimum, setGapMinimum] = useState(0);
-  const [gapMaximum, setGapMaximum] = useState(0);
+  const [beamLength, setBeamLength] = useState<string | ''>('');
+  const [weldLength, setWeldLength] = useState<string | ''>('100');
+  const [gapMinimum, setGapMinimum] = useState<string | ''>('');
+  const [gapMaximum, setGapMaximum] = useState<string | ''>('');
   const [results, setResults] = useState<
     { gap: number; numberOfWelds: number }[]
   >([]);
@@ -13,15 +13,17 @@ const Form = () => {
   console.log(results);
 
   const calculateWelds = () => {
+    if (!beamLength || !weldLength || !gapMinimum || !gapMaximum) return;
     setResults([]);
     let numberOfWelds = 2;
     let currentGap = 100000000;
     const results = [];
-    while (currentGap > gapMinimum) {
+    while (currentGap > Number(gapMinimum)!) {
       currentGap =
-        (beamLength - weldLength * numberOfWelds) / (numberOfWelds - 1);
+        (Number(beamLength) - Number(weldLength) * numberOfWelds) /
+        (numberOfWelds - 1);
 
-      if (currentGap > gapMinimum && currentGap < gapMaximum) {
+      if (currentGap > Number(gapMinimum) && currentGap < Number(gapMaximum)) {
         console.log(currentGap, numberOfWelds);
         results.push({ gap: currentGap, numberOfWelds });
       }
@@ -43,7 +45,14 @@ const Form = () => {
       <div style={{ margin: '2rem', display: 'flex', flexDirection: 'column' }}>
         <span style={{ fontSize: '1.2rem' }}>Enter weld length: </span>
         <input
-          onChange={(e) => setWeldLength(Number(e.target.value))}
+          onChange={(e) => {
+            if (
+              !Number.isNaN(Number(e.target.value)) ||
+              e.target.value === ''
+            ) {
+              setWeldLength(e.target.value);
+            }
+          }}
           value={weldLength}
           placeholder="length in mm..."
           type="number"
@@ -59,24 +68,45 @@ const Form = () => {
       >
         <span style={{ fontSize: '1.2rem' }}>Enter beam length: </span>
         <input
-          onChange={(e) => setBeamLength(Number(e.target.value))}
+          onChange={(e) => {
+            if (
+              !Number.isNaN(Number(e.target.value)) ||
+              e.target.value === ''
+            ) {
+              setBeamLength(e.target.value);
+            }
+          }}
           value={beamLength}
           placeholder="length in mm"
-          type="number"
+          type="text"
           style={{ fontSize: '1.2rem', padding: '0.2rem 0.5rem' }}
         />
       </div>
       <div style={{ margin: '2rem', display: 'flex', flexDirection: 'column' }}>
         <span style={{ fontSize: '1.2rem' }}>Enter gap range: </span>
         <input
-          onChange={(e) => setGapMinimum(Number(e.target.value))}
+          onChange={(e) => {
+            if (
+              !Number.isNaN(Number(e.target.value)) ||
+              e.target.value === ''
+            ) {
+              setGapMinimum(e.target.value);
+            }
+          }}
           value={gapMinimum}
           placeholder="minimum..."
           type="number"
           style={{ fontSize: '1.2rem', padding: '0.2rem 0.5rem' }}
         />
         <input
-          onChange={(e) => setGapMaximum(Number(e.target.value))}
+          onChange={(e) => {
+            if (
+              !Number.isNaN(Number(e.target.value)) ||
+              e.target.value === ''
+            ) {
+              setGapMaximum(e.target.value);
+            }
+          }}
           value={gapMaximum}
           placeholder="maximum..."
           type="number"
