@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import ExpandWindow from './ExpandWindow';
 
 const Form = () => {
   const [beamLength, setBeamLength] = useState<string | ''>('');
@@ -7,28 +8,38 @@ const Form = () => {
   const [gapMinimum, setGapMinimum] = useState<string | ''>('');
   const [gapMaximum, setGapMaximum] = useState<string | ''>('');
   const [results, setResults] = useState<
-    { gap: number; numberOfWelds: number }[]
+    { gap: number; numberOfWelds: number; spaceList: number[] }[]
   >([]);
-
-  console.log(results);
 
   const calculateWelds = () => {
     if (!beamLength || !weldLength || !gapMinimum || !gapMaximum) return;
     setResults([]);
     let numberOfWelds = 2;
     let currentGap = 100000000;
-    const results = [];
-    while (currentGap > Number(gapMinimum)!) {
+    const results: {
+      gap: number;
+      numberOfWelds: number;
+      spaceList: number[];
+    }[] = [];
+    while (currentGap > Number(gapMinimum)) {
       currentGap =
         (Number(beamLength) - Number(weldLength) * numberOfWelds) /
         (numberOfWelds - 1);
 
       if (currentGap > Number(gapMinimum) && currentGap < Number(gapMaximum)) {
-        console.log(currentGap, numberOfWelds);
-        results.push({ gap: currentGap, numberOfWelds });
+        const spaceList = [];
+        for (let i = 0; i < numberOfWelds; i++) {
+          spaceList.push(i * (Number(weldLength) + currentGap) - currentGap);
+          spaceList.push(i * (Number(weldLength) + currentGap));
+        }
+        spaceList.shift();
+        spaceList.shift();
+
+        results.push({ gap: currentGap, numberOfWelds, spaceList });
       }
       numberOfWelds++;
     }
+
     setResults(results);
   };
 
@@ -123,9 +134,13 @@ const Form = () => {
       </div>
       <div style={{ margin: '2rem', display: 'flex', flexDirection: 'column' }}>
         {results.map((result, index) => (
-          <p key={index}>{`${result.numberOfWelds} welds with ${Math.round(
-            result.gap
-          )}mm gaps`}</p>
+          <ExpandWindow
+            key={index}
+            title={`${result.numberOfWelds} welds with ${Math.round(
+              result.gap
+            )}mm gaps`}
+            spaceList={result.spaceList}
+          />
         ))}
       </div>
     </div>
