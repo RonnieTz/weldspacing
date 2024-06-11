@@ -5,8 +5,8 @@ import ExpandWindow from './ExpandWindow';
 const Form = () => {
   const [beamLength, setBeamLength] = useState<string | ''>('');
   const [weldLength, setWeldLength] = useState<string | ''>('100');
-  const [gapMinimum, setGapMinimum] = useState<string | ''>('');
-  const [gapMaximum, setGapMaximum] = useState<string | ''>('');
+  const [gapMinimum, setGapMinimum] = useState<string | ''>('100');
+  const [gapMaximum, setGapMaximum] = useState<string | ''>('300');
   const [results, setResults] = useState<
     { gap: number; numberOfWelds: number; spaceList: number[] }[]
   >([]);

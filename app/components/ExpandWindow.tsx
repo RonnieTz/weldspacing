@@ -1,7 +1,6 @@
 'use client';
 
 import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -20,7 +19,7 @@ const ExpandWindow = ({ title, spaceList }: Props) => {
       </AccordionSummary>
       <AccordionDetails>
         {spaceList.map((space, index) => (
-          <div key={space}>{`${index + 1}: ${space} mm`}</div>
+          <div key={space}>{`${index + 1}: ${Math.round(space)} mm`}</div>
         ))}
       </AccordionDetails>
     </Accordion>
