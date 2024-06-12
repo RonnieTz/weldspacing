@@ -1,9 +1,10 @@
+import { cookies } from 'next/headers';
 import { connectToDatabase } from '../utils/connectToDatabase';
 import { Visit } from '../utils/mongooseSchemas';
 
 const Footer = async () => {
   await connectToDatabase();
-
+  const _cookies = cookies();
   const res = await Visit.find();
   await Visit.findOneAndReplace(
     { value: res[0].value },
