@@ -1,4 +1,15 @@
-const Footer = () => {
+import { connectToDatabase } from '../utils/connectToDatabase';
+import { Visit } from '../utils/mongooseSchemas';
+
+const Footer = async () => {
+  await connectToDatabase();
+
+  const res = await Visit.find();
+  await Visit.findOneAndReplace(
+    { value: res[0].value },
+    { value: res[0].value + 1 }
+  );
+  console.log(res);
   return (
     <nav>
       <div
@@ -20,7 +31,10 @@ const Footer = () => {
           fontStyle: 'italic',
         }}
       >
-        Copyright © 2024 by Ronis
+        <p>Copyright © 2024 by Ronis</p>
+        <p style={{ marginLeft: '10px', position: 'absolute', right: '10px' }}>
+          {`visits: ${res[0].value}`}
+        </p>
       </div>
     </nav>
   );
