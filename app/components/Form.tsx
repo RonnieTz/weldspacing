@@ -132,7 +132,14 @@ const Form = () => {
           Calculate
         </button>
       </div>
-      <div style={{ margin: '2rem', display: 'flex', flexDirection: 'column' }}>
+      <div
+        style={{
+          margin: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
+      >
         {results.map((result, index) => (
           <ExpandWindow
             key={index}
