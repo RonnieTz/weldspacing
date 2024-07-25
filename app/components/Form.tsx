@@ -33,7 +33,7 @@ const Form = () => {
           spaceList.push(i * (Number(weldLength) + currentGap));
         }
         spaceList.shift();
-        spaceList.shift();
+        spaceList.push(Number(beamLength));
 
         results.push({ gap: currentGap, numberOfWelds, spaceList });
       }

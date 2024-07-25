@@ -45,7 +45,7 @@ const ExpandWindow = ({ title, spaceList }: Props) => {
                     <Button
                       onClick={() => {
                         if (index === 0) return;
-                        index % 2 === 0
+                        index % 2 !== 0
                           ? setSelected(index)
                           : setSelected(index + 1);
                       }}
