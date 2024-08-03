@@ -50,8 +50,13 @@ const ExpandWindow = ({ title, spaceList }: Props) => {
                           : setSelected(index + 1);
                       }}
                       style={{
-                        backgroundColor: index <= selected ? 'darkblue' : '',
-                        color: index <= selected ? 'whitesmoke' : '',
+                        backgroundColor:
+                          index === selected || index === selected - 1
+                            ? 'darkgreen'
+                            : index <= selected
+                            ? 'darkblue'
+                            : '',
+                        color: index <= selected ? 'white' : '',
                         width: '100%',
                         fontSize: '1.2rem',
                         fontWeight: 'bolder',
